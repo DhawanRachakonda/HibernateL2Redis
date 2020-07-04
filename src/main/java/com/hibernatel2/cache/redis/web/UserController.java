@@ -25,6 +25,11 @@ public class UserController {
 		return this.userService.getUserDetails();
 	}
 	
+	@GetMapping("/query")
+	public List<UserDto> getUsersWithEMF() {
+		return this.userService.getUserDetailsWithEMF();
+	}
+	
 	@GetMapping("/only-users")
 	public List<UserDto> getOnlyUsers() {
 		return this.userService.getOnlyUserDetails();
