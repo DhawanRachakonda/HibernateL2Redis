@@ -1,0 +1,5 @@
+{
+	"hibernate.cache.redisson.userCache.eviction.max_entries": "10000",
+	"hibernate.cache.redisson.userCache.expiration.time_to_live": "600000",
+	"hibernate.cache.redisson.userCache.expiration.max_idle_time": "300000"
+}

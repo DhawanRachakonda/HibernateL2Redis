@@ -1,5 +1,7 @@
 package com.hibernatel2.cache.redis.config;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -17,7 +19,12 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.util.ResourceUtils;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hibernatel2.cache.redis.entities.Employee;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -25,9 +32,17 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableJpaRepositories("com.hibernatel2.cache.redis.repositories")
 @EnableTransactionManagement
 public class HibernateConfig {
+	
+	private Map<String, Object> getRedissonCacheSettings() throws JsonParseException, JsonMappingException, FileNotFoundException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.readValue(ResourceUtils.getFile(
+			      "classpath:redisson_cache.json"), new TypeReference<Map<String, Object>>() {
+        });
+		
+	}
 
 	@Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() throws JsonParseException, JsonMappingException, FileNotFoundException, IOException {
 
         Map<String, Object> hibernateProps = new LinkedHashMap<>();
         hibernateProps.put(Environment.USE_SECOND_LEVEL_CACHE, Boolean.TRUE.toString());
@@ -39,6 +54,8 @@ public class HibernateConfig {
         hibernateProps.put(Environment.GENERATE_STATISTICS, Boolean.TRUE.toString());
         hibernateProps.put("hibernate.cache.redisson.fallback", Boolean.TRUE.toString());
         hibernateProps.put("hibernate.cache.redisson.config", "./redisson.yaml");
+        
+        hibernateProps.putAll(this.getRedissonCacheSettings());
         
         LocalContainerEntityManagerFactoryBean result = new LocalContainerEntityManagerFactoryBean();
         result.setPackagesToScan(new String[] {Employee.class.getPackage().getName() });
