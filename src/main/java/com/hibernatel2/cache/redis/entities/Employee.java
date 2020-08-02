@@ -35,7 +35,7 @@ public class Employee {
 
 	private String comment;
 
-    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Fetch(FetchMode.SUBSELECT)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "userDocsCache")
     private List<Document> docs = new ArrayList<>();

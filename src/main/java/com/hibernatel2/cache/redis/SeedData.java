@@ -25,7 +25,7 @@ public class SeedData implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		System.out.println("Preparing Seed Data");
 		List<Employee> employees = new ArrayList<Employee>();
-		for(int i=0; i<10000; i++) {
+		for(int i=0; i<1000; i++) {
 			Employee emp = new Employee();
 			emp.setName("user"+i);
 			emp.setComment("comment"+i);

@@ -1,12 +1,13 @@
 package com.hibernatel2.cache.redis.dtos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.hibernatel2.cache.redis.entities.Employee;
 
-public class UserDto {
+public class UserDto implements Serializable {
 
 	private Long userId;
 	private String userName;

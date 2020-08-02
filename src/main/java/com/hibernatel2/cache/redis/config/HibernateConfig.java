@@ -45,17 +45,17 @@ public class HibernateConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() throws JsonParseException, JsonMappingException, FileNotFoundException, IOException {
 
         Map<String, Object> hibernateProps = new LinkedHashMap<>();
-        hibernateProps.put(Environment.USE_SECOND_LEVEL_CACHE, Boolean.TRUE.toString());
+        //hibernateProps.put(Environment.USE_SECOND_LEVEL_CACHE, Boolean.TRUE.toString());
         hibernateProps.put(Environment.JPA_SHARED_CACHE_MODE, "ENABLE_SELECTIVE");
-        hibernateProps.put(Environment.USE_QUERY_CACHE, Boolean.TRUE.toString());
+        //hibernateProps.put(Environment.USE_QUERY_CACHE, Boolean.TRUE.toString());
         hibernateProps.put(Environment.HBM2DDL_AUTO, "create-drop");
         hibernateProps.put(Environment.CACHE_REGION_FACTORY, "org.redisson.hibernate.RedissonRegionFactory");
         hibernateProps.put(Environment.USE_STRUCTURED_CACHE, Boolean.FALSE.toString());
-        hibernateProps.put(Environment.GENERATE_STATISTICS, Boolean.TRUE.toString());
-        hibernateProps.put("hibernate.cache.redisson.fallback", Boolean.TRUE.toString());
-        hibernateProps.put("hibernate.cache.redisson.config", "./redisson.yaml");
+        //hibernateProps.put(Environment.GENERATE_STATISTICS, Boolean.TRUE.toString());
+        //hibernateProps.put("hibernate.cache.redisson.fallback", Boolean.TRUE.toString());
+        //hibernateProps.put("hibernate.cache.redisson.config", "./redisson.yaml");
         
-        hibernateProps.putAll(this.getRedissonCacheSettings());
+        //hibernateProps.putAll(this.getRedissonCacheSettings());
         
         LocalContainerEntityManagerFactoryBean result = new LocalContainerEntityManagerFactoryBean();
         result.setPackagesToScan(new String[] {Employee.class.getPackage().getName() });

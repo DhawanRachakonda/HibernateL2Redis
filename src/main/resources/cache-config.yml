@@ -1,0 +1,4 @@
+usersCache:
+  ttl: 30000 #if 0 stores infinitely
+  maxIdleTime: 72000 #if 0 stores infinitely
+  maxSize: 2000
