@@ -52,7 +52,7 @@ public class UserService {
 		return users.stream().map(user -> UserDto.buildOnlyUserDto(user)).collect(Collectors.toList());
 	}
 
-	@Cacheable(value = "usersCache", key="T(com.hibernatel2.cache.redis.config.TenantKeyGenerator).generateKey()", unless = "#result == null")
+	@Cacheable(value = "usersCache", key="T(com.hibernatel2.cache.redis.config.TenantKeyGenerator).generateKey(#page.getPageNumber(), #page.getPageSize())", unless = "#result == null")
 	public List<UserDto> getOnlyUserDetails(Pageable page) {
 //		Query query = this.entityManager.createQuery("select e from Employee e").setHint("org.hibernate.cacheable", true);
 //		query.setFirstResult(page.getPageNumber() * page.getPageSize());
