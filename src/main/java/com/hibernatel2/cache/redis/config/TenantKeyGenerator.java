@@ -10,21 +10,21 @@ import java.util.stream.Collectors;
 @Component
 public class TenantKeyGenerator {
 
-    private static TenantContextHolder tenantContextHolder;
+    private static ApplicationContext appCtx;
 
     @Autowired
-    public void setAppContext(TenantContextHolder tenantContextHolder) {
-        TenantKeyGenerator.tenantContextHolder = tenantContextHolder;
+    public void setAppContext(ApplicationContext appCtx) {
+        TenantKeyGenerator.appCtx = appCtx;
     }
 
     public static String generateKey(Object ...args) {
-        String tenantId = tenantContextHolder.getTenantId();
+        String tenantId = appCtx.getBean(TenantContextHolder.class).getTenantId();
         String combinedArgs = String.join(":", Arrays.stream(args).map(arg -> String.valueOf(arg)).collect(Collectors.toList()));
         return String.format("%s:%s", tenantId, combinedArgs);
     }
 
     public static String generateKey() {
-        String tenantId = tenantContextHolder.getTenantId();
+        String tenantId = appCtx.getBean(TenantContextHolder.class).getTenantId();
         return String.format("%s", tenantId);
     }
 
