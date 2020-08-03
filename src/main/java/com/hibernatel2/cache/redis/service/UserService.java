@@ -52,7 +52,7 @@ public class UserService {
 		return users.stream().map(user -> UserDto.buildOnlyUserDto(user)).collect(Collectors.toList());
 	}
 
-	@Cacheable(value = "usersCache",  unless = "#result == null")
+	@Cacheable(value = "usersCache", key="T(com.hibernatel2.cache.redis.config.TenantKeyGenerator).generateKey()", unless = "#result == null")
 	public List<UserDto> getOnlyUserDetails(Pageable page) {
 //		Query query = this.entityManager.createQuery("select e from Employee e").setHint("org.hibernate.cacheable", true);
 //		query.setFirstResult(page.getPageNumber() * page.getPageSize());
@@ -62,12 +62,12 @@ public class UserService {
 		return users.stream().map(user -> UserDto.buildOnlyUserDto(user)).collect(Collectors.toList());
 	}
 
-	@Cacheable(value = "usersCache", key="#id",  unless = "#result == null")
+	@Cacheable(value = "usersCache", key="T(com.hibernatel2.cache.redis.config.TenantKeyGenerator).generateKey(#id)",  unless = "#result == null")
 	public UserDto getUser(Long id) {
 		return UserDto.buildOnlyUserDto(this.userRepository.findById(id).get());
 	}
 
-	@CacheEvict(value = "userCache", key = "#i")
+	@CacheEvict(value = "userCache", key = "T(com.hibernatel2.cache.redis.config.TenantKeyGenerator).generateKey(#i)")
 	public UserDto saveUser(Long i) {
 		Employee emp = new Employee();
 		emp.setName("user"+i);
@@ -79,12 +79,12 @@ public class UserService {
 		return UserDto.buildOnlyUserDto(this.userRepository.save(emp));
 	}
 
-	@CacheEvict(value = "usersCache")
+	@CacheEvict(value = "usersCache", key= "T(com.hibernatel2.cache.redis.config.TenantKeyGenerator).generateKey(#id)")
 	public void deleteUser(Long id) {
 		userRepository.deleteById(id);
 	}
 
-	@CachePut(value = "usersCache", key = "#p0")
+	@CachePut(value = "usersCache", key = "T(com.hibernatel2.cache.redis.config.TenantKeyGenerator).generateKey(#p0)")
 	public UserDto updateUser(Long i, String name) {
 		Employee emp = userRepository.getOne(i);
 		emp.setName(name);

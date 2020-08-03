@@ -32,10 +32,10 @@ public class SpringCacheConfig {
         return Redisson.create(config);
     }
 
-//    @Bean
-//    public CacheManager cacheManager(RedissonClient redissonClient) {
-//        return new RedissonSpringCacheManager(redissonClient, "classpath:/cache-config.yml");
-//    }
+    @Bean
+    public CacheManager cacheManager(RedissonClient redissonClient) {
+        return new RedissonSpringCacheManager(redissonClient, "classpath:/cache-config.yml");
+    }
 
 //    @Bean
 //    public CacheResolver cacheResolver(CacheManager cacheManager) {
@@ -43,11 +43,11 @@ public class SpringCacheConfig {
 //    }
 
 
-    @Lazy
-    @Bean
-    public MultitenantCacheManager cacheManager(RedissonClient redissonClient) {
-        return new MultitenantCacheManager(new RedissonSpringCacheManager(redissonClient,
-                "classpath:/cache-config.yml"), true, tenantContextHolder);
-    }
+//    @Lazy
+//    @Bean
+//    public MultitenantCacheManager cacheManager(RedissonClient redissonClient) {
+//        return new MultitenantCacheManager(new RedissonSpringCacheManager(redissonClient,
+//                "classpath:/cache-config.yml"), true, tenantContextHolder);
+//    }
 
 }
